@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng ký tài khoản</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
+        body { display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #f4f6f9; }
+        .register-card { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); width: 340px; }
+        .register-card h2 { text-align: center; margin-bottom: 20px; color: #333; }
+        .input-group { margin-bottom: 15px; }
+        .input-group label { display: block; margin-bottom: 5px; color: #666; font-size: 14px; }
+        .input-group input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; outline: none; }
+        .input-group input:focus { border-color: #28a745; }
+        .btn-submit { width: 100%; padding: 10px; background-color: #28a745; color: white; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; }
+        .btn-submit:hover { background-color: #218838; }
+        .message { font-size: 13px; margin-top: 10px; text-align: center; display: none; }
+        .error { color: #dc3545; }
+        .login-link { text-align: center; margin-top: 15px; font-size: 14px; }
+        .login-link a { color: #007bff; text-decoration: none; }
+    </style>
+</head>
+<body>
+
+<div class="register-card">
+    <h2>Đăng Ký</h2>
+    <form id="registerForm">
+        <div class="input-group">
+            <label for="username">Tên đăng nhập</label>
+            <input type="text" id="username" required placeholder="Nhập tên đăng nhập">
+        </div>
+        <div class="input-group">
+            <label for="password">Mật khẩu</label>
+            <input type="password" id="password" required placeholder="Nhập mật khẩu">
+        </div>
+        <div class="input-group">
+            <label for="confirmPassword">Xác nhận mật khẩu</label>
+            <input type="password" id="confirmPassword" required placeholder="Nhập lại mật khẩu">
+        </div>
+        <button type="submit" class="btn-submit">Đăng Ký & Đăng Nhập</button>
+        <p id="msg" class="message error"></p>
+        <div class="login-link">
+            Đã có tài khoản? <a href="login.html">Đăng nhập</a>
+        </div>
+    </form>
+</div>
+
+<script>
+    document.getElementById('registerForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const username = document.getElementById('username').value.trim();
+        const password = document.getElementById('password').value.trim();
+        const confirmPassword = document.getElementById('confirmPassword').value.trim();
+        const msg = document.getElementById('msg');
+
+        // Kiểm tra khớp mật khẩu
+        if (password !== confirmPassword) {
+            msg.textContent = "Mật khẩu xác nhận không khớp!";
+            msg.style.display = "block";
+            return;
+        }
+
+        // Lấy danh sách tài khoản hiện có trong localStorage (nếu có)
+        let users = JSON.parse(localStorage.getItem('users')) || [];
+
+        // Kiểm tra xem tên đăng nhập đã tồn tại chưa
+        const isExist = users.some(user => user.username === username);
+        if (isExist) {
+            msg.textContent = "Tên đăng nhập đã tồn tại!";
+            msg.style.display = "block";
+            return;
+        }
+
+        // Thêm tài khoản mới vào danh sách
+        users.push({ username: username, password: password });
+        localStorage.setItem('users', JSON.stringify(users));
+
+        // Tự động đăng nhập và lưu trạng thái
+        localStorage.setItem('isLoggedIn', 'true');
+        localStorage.setItem('username', username);
+
+        // Chuyển hướng sang trang chủ
+        window.location.href = "index.html";
+    });
+</script>
+
+</body>
+</html>
