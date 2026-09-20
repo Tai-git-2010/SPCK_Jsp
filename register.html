@@ -5,20 +5,133 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Đăng ký tài khoản</title>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
-        body { display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #f4f6f9; }
-        .register-card { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); width: 340px; }
-        .register-card h2 { text-align: center; margin-bottom: 20px; color: #333; }
-        .input-group { margin-bottom: 15px; }
-        .input-group label { display: block; margin-bottom: 5px; color: #666; font-size: 14px; }
-        .input-group input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; outline: none; }
-        .input-group input:focus { border-color: #28a745; }
-        .btn-submit { width: 100%; padding: 10px; background-color: #28a745; color: white; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; }
-        .btn-submit:hover { background-color: #218838; }
-        .message { font-size: 13px; margin-top: 10px; text-align: center; display: none; }
-        .error { color: #dc3545; }
-        .login-link { text-align: center; margin-top: 15px; font-size: 14px; }
-        .login-link a { color: #007bff; text-decoration: none; }
+       * { 
+  box-sizing: border-box; 
+  margin: 0; 
+  padding: 0; 
+  font-family: 'Segoe UI', Arial, sans-serif; 
+}
+
+/* Nền họa tiết 3D Isometric */
+body { 
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+  min-height: 100vh; 
+  background-color: #9cb5c6;
+  background-image: 
+    linear-gradient(135deg, rgba(255,255,255,0.3) 0%, rgba(0,0,0,0.1) 100%),
+    repeating-linear-gradient(45deg, #8ba7b8 0, #8ba7b8 25px, #a3bdce 25px, #a3bdce 50px);
+  background-blend-mode: overlay;
+}
+
+/* Khung form hiệu ứng kính mờ (Glassmorphism) */
+.register-card { 
+  background: rgba(255, 255, 255, 0.45); 
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  padding: 35px 30px; 
+  border-radius: 20px; 
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.12),
+    inset 0 1px 2px rgba(255, 255, 255, 0.8); 
+  width: 380px; 
+}
+
+.register-card h2 { 
+  text-align: center; 
+  margin-bottom: 24px; 
+  color: #2d3748; 
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.input-group { 
+  margin-bottom: 18px; 
+}
+
+.input-group label { 
+  display: block; 
+  margin-bottom: 8px; 
+  color: #334155; 
+  font-size: 14px; 
+  font-weight: 600;
+}
+
+/* Ô nhập liệu chuẩn Glass UI */
+.input-group input { 
+  width: 100%; 
+  padding: 12px 16px; 
+  border: 1px solid rgba(255, 255, 255, 0.8); 
+  background: rgba(235, 240, 245, 0.6);
+  border-radius: 10px; 
+  outline: none; 
+  font-size: 15px;
+  color: #1e293b;
+  transition: all 0.3s ease;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.03);
+}
+
+.input-group input:focus { 
+  background: rgba(255, 255, 255, 0.9);
+  border-color: #3b82f6; 
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+}
+
+/* Nút bấm hiệu ứng 3D dập nổi */
+.btn-submit { 
+  width: 100%; 
+  padding: 13px; 
+  background: linear-gradient(180deg, #348e38 0%, #28742c 100%); 
+  color: white; 
+  border: none; 
+  border-radius: 10px; 
+  font-size: 16px;
+  font-weight: 600; 
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(40, 116, 44, 0.35);
+  transition: transform 0.2s, box-shadow 0.2s;
+  margin-top: 8px;
+}
+
+.btn-submit:hover { 
+  background: linear-gradient(180deg, #2e7d32 0%, #1b5e20 100%); 
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(40, 116, 44, 0.45);
+}
+
+.btn-submit:active {
+  transform: translateY(1px);
+}
+
+.message { 
+  font-size: 13px; 
+  margin-top: 10px; 
+  text-align: center; 
+  display: none; 
+}
+
+.error { 
+  color: #e11d48; 
+}
+
+.login-link { 
+  text-align: center; 
+  margin-top: 20px; 
+  font-size: 14px; 
+  color: #475569;
+}
+
+.login-link a { 
+  color: #2563eb; 
+  text-decoration: none; 
+  font-weight: 600;
+}
+
+.login-link a:hover {
+  text-decoration: underline;
+}
     </style>
 </head>
 <body>

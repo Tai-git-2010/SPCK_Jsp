@@ -1,62 +1,186 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
-        body { display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #f4f6f9; }
-        .login-card { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); width: 320px; }
-        .login-card h2 { text-align: center; margin-bottom: 20px; color: #333; }
-        .input-group { margin-bottom: 15px; }
-        .input-group label { display: block; margin-bottom: 5px; color: #666; font-size: 14px; }
-        .input-group input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; outline: none; }
-        .input-group input:focus { border-color: #007bff; }
-        .btn-submit { width: 100%; padding: 10px; background-color: #007bff; color: white; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; }
-        .btn-submit:hover { background-color: #0056b3; }
-        .error-message { color: #dc3545; font-size: 13px; margin-top: 10px; text-align: center; display: none; }
+     /* CSS Họa tiết nền & Hiệu ứng Kính mờ */
+* { 
+  box-sizing: border-box; 
+  margin: 0; 
+  padding: 0; 
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; 
+}
+
+body { 
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+  min-height: 100vh; 
+  /* Nền Gradient phối màu Indigo/Cyan mềm mại */
+  background-color: #4158D0;
+  background-image: 
+    radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0px, transparent 50%),
+    radial-gradient(at 50% 0%, hsla(225,89%,47%,1) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, hsla(339,49%,30%,1) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, hsla(280,50%,40%,1) 0px, transparent 50%),
+    radial-gradient(at 0% 100%, hsla(190,80%,50%,1) 0px, transparent 50%);
+  background-size: 150% 150%;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Họa tiết lưới trang trí chìm ở nền (Geometric Pattern Overlay) */
+body::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.15) 1.5px, transparent 1.5px);
+  background-size: 24px 24px;
+  pointer-events: none;
+}
+
+.login-card { 
+  /* Hiệu ứng kính mờ Glassmorphism */
+  background: rgba(255, 255, 255, 0.88); 
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  padding: 40px 36px; 
+  border-radius: 20px; 
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); 
+  width: 100%;
+  max-width: 380px; 
+  position: relative;
+  z-index: 1;
+}
+
+.login-card h2 { 
+  text-align: center; 
+  margin-bottom: 28px; 
+  color: #0f172a; 
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.input-group { 
+  margin-bottom: 20px; 
+}
+
+.input-group label { 
+  display: block; 
+  margin-bottom: 8px; 
+  color: #334155; 
+  font-size: 13px; 
+  font-weight: 600;
+}
+
+.input-group input { 
+  width: 100%; 
+  padding: 12px 16px; 
+  border: 1.5px solid #cbd5e1; 
+  border-radius: 10px; 
+  outline: none; 
+  font-size: 14px;
+  color: #0f172a;
+  background-color: rgba(255, 255, 255, 0.9);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.input-group input:focus { 
+  border-color: #4f46e5; 
+  background-color: #ffffff;
+  box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.2);
+}
+
+/* Xử lý dứt điểm màu vàng Autofill */
+.input-group input:-webkit-autofill,
+.input-group input:-webkit-autofill:hover, 
+.input-group input:-webkit-autofill:focus {
+  -webkit-text-fill-color: #0f172a;
+  -webkit-box-shadow: 0 0 0px 1000px #f8fafc inset !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+.btn-submit { 
+  width: 100%; 
+  padding: 13px; 
+  /* Nút màu Gradient tím-xanh hiện đại */
+  background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%); 
+  color: #ffffff; 
+  border: none; 
+  border-radius: 10px; 
+  font-size: 15px;
+  font-weight: 600; 
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(79, 70, 229, 0.4);
+  transition: all 0.2s ease;
+}
+
+.btn-submit:hover { 
+  background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%); 
+  box-shadow: 0 6px 20px rgba(79, 70, 229, 0.5);
+  transform: translateY(-1px);
+}
+
+.btn-submit:active {
+  transform: translateY(0);
+}
+
+.error-message { 
+  color: #ef4444; 
+  font-size: 13px; 
+  margin-top: 14px; 
+  text-align: center; 
+  display: none; 
+}
     </style>
 </head>
+
 <body>
 
-<div class="login-card">
-    <h2>Đăng Nhập</h2>
-    <form id="loginForm">
-        <div class="input-group">
-            <label for="username">Tên đăng nhập</label>
-            <input type="text" id="username" required placeholder="Nhập admin">
-        </div>
-        <div class="input-group">
-            <label for="password">Mật khẩu</label>
-            <input type="password" id="password" required placeholder="Nhập 123456">
-        </div>
-        <button type="submit" class="btn-submit">Đăng Nhập</button>
-        <p id="errorMsg" class="error-message">Tài khoản hoặc mật khẩu không đúng!</p>
-    </form>
-</div>
+    <div class="login-card">
+        <h2>Đăng Nhập</h2>
+        <form id="loginForm">
+            <div class="input-group">
+                <label for="username">Tên đăng nhập</label>
+                <input type="text" id="username" required placeholder="Nhập admin">
+            </div>
+            <div class="input-group">
+                <label for="password">Mật khẩu</label>
+                <input type="password" id="password" required placeholder="Nhập 123456">
+            </div>
+            <button type="submit" class="btn-submit">Đăng Nhập</button>
+            <p id="errorMsg" class="error-message">Tài khoản hoặc mật khẩu không đúng!</p>
+        </form>
+    </div>
 
-<script>
-    document.getElementById('loginForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        const usernameInput = document.getElementById('username').value.trim();
-        const passwordInput = document.getElementById('password').value.trim();
-        const errorMsg = document.getElementById('errorMsg');
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function (e) {
+            e.preventDefault();
 
-        // Kiểm tra tài khoản mẫu
-        if (usernameInput === "admin" && passwordInput === "123456") {
-            // Lưu trạng thái đăng nhập vào LocalStorage
-            localStorage.setItem('isLoggedIn', 'true');
-            localStorage.setItem('username', usernameInput);
-            
-            // Chuyển hướng sang trang chủ
-            window.location.href = "index.html";
-        } else {
-            errorMsg.style.display = "block";
-        }
-    });
-</script>
+            const usernameInput = document.getElementById('username').value.trim();
+            const passwordInput = document.getElementById('password').value.trim();
+            const errorMsg = document.getElementById('errorMsg');
+
+            // Kiểm tra tài khoản mẫu
+            if (usernameInput === "admin" && passwordInput === "123456") {
+                // Lưu trạng thái đăng nhập vào LocalStorage
+                localStorage.setItem('isLoggedIn', 'true');
+                localStorage.setItem('username', usernameInput);
+
+                // Chuyển hướng sang trang chủ
+                window.location.href = "index.html";
+            } else {
+                errorMsg.style.display = "block";
+            }
+        });
+    </script>
 
 </body>
+
 </html>
