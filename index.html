@@ -3,39 +3,851 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trang Chủ</title>
+    <title>SNEAKERVAULT - Giày Sneaker Chính Hãng</title>
+    <!-- Google Fonts & Font Awesome Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; padding-top: 50px; background-color: #eef2f5; }
-        .welcome-card { background: white; max-width: 500px; margin: 0 auto; padding: 40px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        h1 { color: #2c3e50; margin-bottom: 10px; }
-        p { color: #555; margin-bottom: 20px; }
-        .btn-logout { padding: 10px 20px; background-color: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; }
-        .btn-logout:hover { background-color: #bd2130; }
+        /* CSS RESET & VARIABLES */
+        :root {
+            --primary: #000000;
+            --primary-accent: #2563eb;
+            --primary-hover: #1d4ed8;
+            --bg-main: #f8fafc;
+            --bg-card: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            --radius-lg: 16px;
+            --radius-md: 10px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            line-height: 1.5;
+        }
+
+        /* HEADER & NAVIGATION */
+        header {
+            background-color: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            width: 38px;
+            height: 38px;
+            background: var(--primary);
+            color: white;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .search-container {
+            flex: 1;
+            max-width: 450px;
+            position: relative;
+        }
+
+        .search-container input {
+            width: 100%;
+            padding: 12px 16px 12px 44px;
+            background-color: #f1f5f9;
+            border: 1px solid transparent;
+            border-radius: 99px;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            outline: none;
+        }
+
+        .search-container input:focus {
+            background-color: white;
+            border-color: var(--primary-accent);
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+        }
+
+        .search-container i {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+        }
+
+        .user-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .cart-trigger {
+            position: relative;
+            background: #f1f5f9;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background 0.2s;
+            color: var(--text-main);
+        }
+
+        .cart-trigger:hover {
+            background: #e2e8f0;
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            background: #ef4444;
+            color: white;
+            font-size: 11px;
+            font-weight: 700;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid white;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding-left: 12px;
+            border-left: 1px solid var(--border);
+        }
+
+        .user-info {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .user-info span {
+            color: var(--primary-accent);
+        }
+
+        .btn-logout {
+            padding: 8px 16px;
+            background-color: #fee2e2;
+            color: #dc2626;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-logout:hover {
+            background-color: #fca5a5;
+            color: #991b1b;
+        }
+
+        /* HERO BANNER */
+        .hero {
+            max-width: 1280px;
+            margin: 24px auto;
+            padding: 0 24px;
+        }
+
+        .hero-card {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            border-radius: 24px;
+            padding: 48px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 550px;
+            z-index: 2;
+        }
+
+        .hero-tag {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 6px 14px;
+            border-radius: 99px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            backdrop-filter: blur(4px);
+            letter-spacing: 0.5px;
+        }
+
+        .hero-title {
+            font-size: 42px;
+            font-weight: 800;
+            line-height: 1.15;
+            margin-bottom: 16px;
+            letter-spacing: -1px;
+        }
+
+        .hero-subtitle {
+            color: #94a3b8;
+            font-size: 16px;
+            margin-bottom: 24px;
+        }
+
+        /* MAIN CONTENT & FILTERS */
+        .main-layout {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px 60px 24px;
+        }
+
+        .filter-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .categories {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 4px;
+        }
+
+        .cat-btn {
+            padding: 10px 20px;
+            border-radius: 99px;
+            border: 1px solid var(--border);
+            background: white;
+            color: var(--text-muted);
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .cat-btn.active, .cat-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* PRODUCT GRID */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 28px;
+        }
+
+        .product-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-lg);
+            border-color: transparent;
+        }
+
+        .product-img-wrapper {
+            position: relative;
+            padding-top: 75%;
+            background-color: #f1f5f9;
+            overflow: hidden;
+        }
+
+        .product-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .product-card:hover .product-img {
+            transform: scale(1.06);
+        }
+
+        .badge-sale {
+            position: absolute;
+            top: 14px;
+            left: 14px;
+            background: #ef4444;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .product-body {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .product-brand {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--primary-accent);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+        }
+
+        .product-name {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 12px;
+            line-height: 1.3;
+        }
+
+        .product-footer {
+            margin-top: auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 12px;
+        }
+
+        .product-price {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--text-main);
+        }
+
+        .btn-add {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .btn-add:hover {
+            background: var(--primary-accent);
+            transform: scale(1.05);
+        }
+
+        /* CART DRAWER */
+        .cart-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(4px);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+
+        .cart-overlay.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .cart-drawer {
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            max-width: 420px;
+            background: white;
+            z-index: 1001;
+            transform: translateX(100%);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cart-drawer.open {
+            transform: translateX(0);
+        }
+
+        .cart-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cart-title {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: var(--text-muted);
+        }
+
+        .cart-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px;
+        }
+
+        .cart-item {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .cart-item-img {
+            width: 70px;
+            height: 70px;
+            border-radius: var(--radius-md);
+            object-fit: cover;
+            background: #f1f5f9;
+        }
+
+        .cart-item-details {
+            flex: 1;
+        }
+
+        .cart-item-title {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .cart-item-price {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--primary-accent);
+            margin-bottom: 8px;
+        }
+
+        .qty-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .qty-btn {
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            background: white;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .cart-footer {
+            padding: 24px;
+            border-top: 1px solid var(--border);
+            background: #f8fafc;
+        }
+
+        .cart-total-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 18px;
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+
+        .btn-checkout {
+            width: 100%;
+            padding: 14px;
+            background: var(--primary-accent);
+            color: white;
+            border: none;
+            border-radius: var(--radius-md);
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-checkout:hover {
+            background: var(--primary-hover);
+        }
+
+        /* FOOTER */
+        footer {
+            background: #0f172a;
+            color: white;
+            padding: 48px 24px 24px 24px;
+        }
+
+        .footer-inner {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 32px;
+            padding-bottom: 48px;
+            border-bottom: 1px solid #334155;
+        }
+
+        .footer-col h4 {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .footer-col p, .footer-col a {
+            color: #94a3b8;
+            font-size: 14px;
+            text-decoration: none;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .footer-bottom {
+            max-width: 1280px;
+            margin: 24px auto 0 auto;
+            text-align: center;
+            color: #64748b;
+            font-size: 13px;
+        }
     </style>
 </head>
 <body>
 
-<div class="welcome-card">
-    <h1>Chào mừng trở lại, <span id="userDisplay"></span>!</h1>
-    <p>Bạn đã đăng nhập thành công vào trang chủ.</p>
-    <button class="btn-logout" onclick="logout()">Đăng xuất</button>
-</div>
+    <!-- HEADER / NAVIGATION -->
+    <header>
+        <div class="header-container">
+            <a href="#" class="logo">
+                <div class="logo-icon"><i class="fa-solid fa-bolt"></i></div>
+                SNEAKERVAULT
+            </a>
 
-<script>
-    // Kiểm tra xem đã đăng nhập chưa
-    if (localStorage.getItem('isLoggedIn') !== 'true') {
-        window.location.href = "login.html";
-    } else {
-        document.getElementById('userDisplay').textContent = localStorage.getItem('username');
-    }
+            <div class="search-container">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="searchInput" placeholder="Tìm kiếm tên sản phẩm, thương hiệu..." onkeyup="filterProducts()">
+            </div>
 
-    // Hàm xử lý đăng xuất
-    function logout() {
-        localStorage.removeItem('isLoggedIn');
-        localStorage.removeItem('username');
-        window.location.href = "login.html";
-    }
-</script>
+            <div class="user-actions">
+                <div class="cart-trigger" onclick="toggleCart()">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    <span class="cart-badge" id="cartCount">0</span>
+                </div>
 
+                <!-- Tương thích logic localStorage cũ -->
+                <div class="user-profile">
+                    <div class="user-info">
+                        Chào, <span id="userDisplay">Khách</span>
+                    </div>
+                    <button class="btn-logout" onclick="logout()">Đăng xuất</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO BANNER -->
+    <section class="hero">
+        <div class="hero-card">
+            <div class="hero-content">
+                <span class="hero-tag">BỘ SƯU TẬP MỚI 2026</span>
+                <h1 class="hero-title">Định Hình Phong Cách Bứt Phá</h1>
+                <p class="hero-subtitle">Khám phá các mẫu sneaker chính hãng giới hạn với ưu đãi độc quyền lên tới 30% cho thành viên.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- MAIN SECTION -->
+    <main class="main-layout">
+        <!-- FILTER BAR -->
+        <div class="filter-bar">
+            <div class="categories">
+                <button class="cat-btn active" onclick="filterCategory('All', this)">Tất cả</button>
+                <button class="cat-btn" onclick="filterCategory('Nike', this)">Nike</button>
+                <button class="cat-btn" onclick="filterCategory('Adidas', this)">Adidas</button>
+                <button class="cat-btn" onclick="filterCategory('Jordan', this)">Jordan</button>
+                <button class="cat-btn" onclick="filterCategory('Puma', this)">Puma</button>
+            </div>
+        </div>
+
+        <!-- PRODUCT GRID -->
+        <div class="products-grid" id="productGrid">
+            <!-- Render động từ Javascript -->
+        </div>
+    </main>
+
+    <!-- CART DRAWER -->
+    <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+    <div class="cart-drawer" id="cartDrawer">
+        <div class="cart-header">
+            <div class="cart-title">Giỏ Hàng Của Bạn</div>
+            <button class="close-btn" onclick="toggleCart()"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="cart-content" id="cartItems">
+            <!-- Sản phẩm trong giỏ hàng sẽ hiện ở đây -->
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total-row">
+                <span>Tổng Tiền:</span>
+                <span id="cartTotal">0 ₫</span>
+            </div>
+            <button class="btn-checkout" onclick="checkout()">Thanh Toán Ngay</button>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-inner">
+            <div class="footer-col">
+                <h4>SNEAKERVAULT</h4>
+                <p>Hệ thống bán lẻ sneaker chính hãng hàng đầu, cam kết 100% chất lượng chuẩn Auth.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Khám Phá</h4>
+                <a href="#">Sản Phẩm Mới</a>
+                <a href="#">Bán Chạy Nhất</a>
+                <a href="#">Giảm Giá</a>
+            </div>
+            <div class="footer-col">
+                <h4>Hỗ Trợ</h4>
+                <a href="#">Chính Sách Đổi Trả</a>
+                <a href="#">Hướng Dẫn Chọn Size</a>
+                <a href="#">Bảo Hành</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 SNEAKERVAULT. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT CODE -->
+    <script>
+        // 1. DỮ LIỆU SẢN PHẨM
+        const products = [
+            { id: 1, name: "Nike Air Max 270 Red Special", category: "Nike", price: 3200000, img: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=80", sale: true },
+            { id: 2, name: "Puma Future Rider Clean", category: "Puma", price: 2100000, img: "https://images.unsplash.com/photo-1608231387042-66d1773070a5?auto=format&fit=crop&w=800&q=80", sale: false },
+            { id: 3, name: "Adidas Ultraboost Light 23", category: "Adidas", price: 4500000, img: "https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?auto=format&fit=crop&w=800&q=80", sale: true },
+            { id: 4, name: "Air Jordan 1 Retro High OG", category: "Jordan", price: 5200000, img: "https://images.unsplash.com/photo-1597045566677-8cf032ed6634?auto=format&fit=crop&w=800&q=80", sale: false },
+            { id: 5, name: "Nike Air Force 1 '07 White", category: "Nike", price: 2900000, img: "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=800&q=80", sale: false },
+            { id: 6, name: "Adidas Forum Low Classic", category: "Adidas", price: 2600000, img: "https://images.unsplash.com/photo-1552346154-21d32810aba3?auto=format&fit=crop&w=800&q=80", sale: true }
+        ];
+
+        let cart = [];
+        let activeCategory = 'All';
+
+        // 2. LOGIC KIỂM TRA ĐĂNG NHẬP (KHỚP TỪ MÃ HÌNH ẢNH CỦA BẠN)
+        if (localStorage.getItem('isLoggedIn') !== 'true') {
+            // Mở lại nếu có trang login.html: window.location.href = "login.html";
+        } else {
+            const username = localStorage.getItem('username');
+            if (username) {
+                document.getElementById('userDisplay').textContent = username;
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('isLoggedIn');
+            localStorage.removeItem('username');
+            alert("Đã đăng xuất thành công!");
+            window.location.href = "login.html";
+        }
+
+        // 3. HIỂN THỊ SẢN PHẨM
+        function renderProducts(items) {
+            const container = document.getElementById('productGrid');
+            container.innerHTML = '';
+
+            if (items.length === 0) {
+                container.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--text-muted);">Không tìm thấy sản phẩm phù hợp.</div>`;
+                return;
+            }
+
+            items.forEach(p => {
+                container.innerHTML += `
+                    <div class="product-card">
+                        <div class="product-img-wrapper">
+                            ${p.sale ? '<span class="badge-sale">SALE</span>' : ''}
+                            <img src="${p.img}" alt="${p.name}" class="product-img">
+                        </div>
+                        <div class="product-body">
+                            <span class="product-brand">${p.category}</span>
+                            <h3 class="product-name">${p.name}</h3>
+                            <div class="product-footer">
+                                <span class="product-price">${p.price.toLocaleString('vi-VN')} ₫</span>
+                                <button class="btn-add" onclick="addToCart(${p.id})">
+                                    <i class="fa-solid fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        // 4. LỌC VÀ TÌM KIẾM
+        function filterCategory(cat, btn) {
+            activeCategory = cat;
+            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            filterProducts();
+        }
+
+        function filterProducts() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = products.filter(p => {
+                const matchCat = activeCategory === 'All' || p.category === activeCategory;
+                const matchQuery = p.name.toLowerCase().includes(query) || p.category.toLowerCase().includes(query);
+                return matchCat && matchQuery;
+            });
+            renderProducts(filtered);
+        }
+
+        // 5. ĐIỀU KHIỂN GIỎ HÀNG
+        function toggleCart() {
+            document.getElementById('cartDrawer').classList.toggle('open');
+            document.getElementById('cartOverlay').classList.toggle('open');
+        }
+
+        function addToCart(id) {
+            const product = products.find(p => p.id === id);
+            const exist = cart.find(item => item.id === id);
+
+            if (exist) {
+                exist.quantity += 1;
+            } else {
+                cart.push({ ...product, quantity: 1 });
+            }
+
+            updateCart();
+            toggleCart();
+        }
+
+        function changeQty(id, delta) {
+            const item = cart.find(p => p.id === id);
+            if (item) {
+                item.quantity += delta;
+                if (item.quantity <= 0) {
+                    cart = cart.filter(p => p.id !== id);
+                }
+            }
+            updateCart();
+        }
+
+        function updateCart() {
+            const cartContainer = document.getElementById('cartItems');
+            const cartCount = document.getElementById('cartCount');
+            const cartTotal = document.getElementById('cartTotal');
+
+            cartContainer.innerHTML = '';
+            let total = 0;
+            let count = 0;
+
+            if (cart.length === 0) {
+                cartContainer.innerHTML = `<div style="text-align: center; color: var(--text-muted); padding-top: 40px;">Giỏ hàng trống</div>`;
+            }
+
+            cart.forEach(item => {
+                total += item.price * item.quantity;
+                count += item.quantity;
+
+                cartContainer.innerHTML += `
+                    <div class="cart-item">
+                        <img src="${item.img}" alt="${item.name}" class="cart-item-img">
+                        <div class="cart-item-details">
+                            <div class="cart-item-title">${item.name}</div>
+                            <div class="cart-item-price">${item.price.toLocaleString('vi-VN')} ₫</div>
+                            <div class="qty-controls">
+                                <button class="qty-btn" onclick="changeQty(${item.id}, -1)">-</button>
+                                <span style="font-size: 14px; font-weight: 600;">${item.quantity}</span>
+                                <button class="qty-btn" onclick="changeQty(${item.id}, 1)">+</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            cartCount.textContent = count;
+            cartTotal.textContent = total.toLocaleString('vi-VN') + ' ₫';
+        }
+
+        function checkout() {
+            if (cart.length === 0) {
+                alert("Giỏ hàng của bạn đang trống!");
+                return;
+            }
+            alert("Cảm ơn bạn đã đặt hàng thành công tại SNEAKERVAULT!");
+            cart = [];
+            updateCart();
+            toggleCart();
+        }
+
+        // Khởi tạo render ban đầu
+        renderProducts(products);
+    </script>
 </body>
 </html>
