@@ -171,80 +171,82 @@
         <tbody id="admin-product-table"></tbody>
     </table>
 
-    <script src="script.js"></script>
-    <script>
-        function renderAdminTable() {
-            const products = getProducts();
-            const tbody = document.getElementById("admin-product-table");
-            tbody.innerHTML = "";
+   <script>
+    // 1. Khởi tạo dữ liệu mặc định nếu chưa có trong localStorage
+    const initialProducts = [
+        { id: 1, name: "Nike Air Max 270 Red Special", category: "Nike", price: 3200000, img: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=80" },
+        { id: 2, name: "Puma Future Rider Clean", category: "Puma", price: 2100000, img: "https://images.unsplash.com/photo-1608231387042-66d1773070a5?auto=format&fit=crop&w=800&q=80" },
+        { id: 3, name: "Adidas Ultraboost Light 23", category: "Adidas", price: 4500000, img: "https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?auto=format&fit=crop&w=800&q=80" },
+        { id: 4, name: "Air Jordan 1 Retro High OG", category: "Jordan", price: 5200000, img: "https://images.unsplash.com/photo-1597045566677-8cf032ed6634?auto=format&fit=crop&w=800&q=80" }
+    ];
 
-            products.forEach(p => {
-                tbody.innerHTML += `
-                    <tr>
-                        <td>${p.id}</td>
-                        <td>${p.name}</td>
-                        <td>${p.price.toLocaleString()}</td>
-                        <td>
-                            <button onclick="editProduct(${p.id})">Sửa</button>
-                            <button onclick="deleteProduct(${p.id})">Xóa</button>
-                        </td>
-                    </tr>
-                `;
-            });
+    // Hàm lấy danh sách sản phẩm từ localStorage
+    function getProducts() {
+        const stored = localStorage.getItem('products');
+        if (!stored) {
+            localStorage.setItem('products', JSON.stringify(initialProducts));
+            return initialProducts;
         }
+        return JSON.parse(stored);
+    }
 
-        // Thêm hoặc Sửa sản phẩm
-        document.getElementById("product-form").addEventListener("submit", function(e) {
-            e.preventDefault();
-            const id = document.getElementById("product-id").value;
-            const name = document.getElementById("product-name").value;
-            const price = Number(document.getElementById("product-price").value);
-            
-            let products = getProducts();
+    // Hàm hiển thị danh sách sản phẩm ra bảng Admin (Khớp với hình ảnh của bạn)
+    function renderAdminTable() {
+        const products = getProducts();
+        const tbody = document.getElementById("admin-product-table");
+        tbody.innerHTML = "";
 
-            if (id) {
-                // Sửa sản phẩm
-                products = products.map(p => p.id == id ? { ...p, name, price } : p);
-            } else {
-                // Thêm sản phẩm mới
-                const newProduct = {
-                    id: Date.now(),
-                    name: name,
-                    price: price
-                };
-                products.push(newProduct);
-            }
-
-            saveProducts(products);
-            this.reset();
-            document.getElementById("product-id").value = "";
-            document.getElementById("submit-btn").innerText = "Thêm sản phẩm";
-            renderAdminTable();
+        products.forEach(p => {
+            tbody.innerHTML += `
+                <tr>
+                    <td>${p.id}</td>
+                    <td>${p.name}</td>
+                    <td>${p.price.toLocaleString('vi-VN')}</td>
+                    <td>
+                        <button class="btn-delete" style="background:#e74c3c; color:white; border:none; padding:5px 10px; border-radius:4px; cursor:pointer;" onclick="deleteProduct(${p.id})">Xóa</button>
+                    </td>
+                </tr>
+            `;
         });
+    }
 
-        // Chọn sản phẩm để Sửa
-        function editProduct(id) {
-            const products = getProducts();
-            const product = products.find(p => p.id == id);
-            if (product) {
-                document.getElementById("product-id").value = product.id;
-                document.getElementById("product-name").value = product.name;
-                document.getElementById("product-price").value = product.price;
-                document.getElementById("submit-btn").innerText = "Cập nhật sản phẩm";
-            }
-        }
+    // Xử lý sự kiện khi bấm nút "Thêm sản phẩm" từ Form
+    document.getElementById("product-form").addEventListener("submit", function(e) {
+        e.preventDefault();
+        
+        const nameInput = document.getElementById("product-name");
+        const priceInput = document.getElementById("product-price");
 
-        // Xóa sản phẩm
-        function deleteProduct(id) {
-            if (confirm("Bạn có chắc chắn muốn xóa sản phẩm này?")) {
-                let products = getProducts();
-                products = products.filter(p => p.id != id);
-                saveProducts(products);
-                renderAdminTable();
-            }
-        }
+        const newProduct = {
+            id: Date.now(), // Tạo ID tự động dựa trên thời gian
+            name: nameInput.value,
+            price: Number(priceInput.value),
+            category: "Nike", // Mặc định thương hiệu nếu không nhập
+            img: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=80" // Ảnh mặc định
+        };
 
+        const products = getProducts();
+        products.push(newProduct);
+        localStorage.setItem('products', JSON.stringify(products));
+
+        // Reset form và cập nhật lại bảng
+        this.reset();
         renderAdminTable();
-    </script>
+        alert("Thêm sản phẩm thành công!");
+    });
+
+    // Hàm xóa sản phẩm
+    function deleteProduct(id) {
+        if (confirm("Bạn có chắc chắn muốn xóa sản phẩm này?")) {
+            let products = getProducts();
+            products = products.filter(p => p.id !== id);
+            localStorage.setItem('products', JSON.stringify(products));
+            renderAdminTable();
+        }
+    }
+
+    // Chạy hiển thị bảng khi trang được tải
+    renderAdminTable();
+</script>
 </body>
 </html>
